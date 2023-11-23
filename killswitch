@@ -1,0 +1,51 @@
+#!/bin/bash
+
+#github.com/krakodjaba t.me/telanalysis
+
+# Установка зависимостей
+apt install ufw -y
+
+# Код скрипта
+ufw --force reset
+ufw default deny incoming
+ufw default deny outgoing
+
+echo "Введите IP для легитимного подключения(IP VPN):"
+read ip
+echo "IP Address: $ip"
+
+echo "Введите количество сетевых интерфейсов для конфигурации:"
+read count
+echo "Количество Интерфейсов: $count"
+
+in_ips="$ip 192.168.0.0/24 127.0.0.1"
+out_ips="$ip 192.168.0.0/24 127.0.0.1"
+
+for i in $(seq 1 $count); do
+    echo "Введите название интерфейса $i:"
+    read interface
+    echo "Интерфейс: $interface"
+    
+    for in_ip in $in_ips; do
+        ufw allow in on $interface from $in_ip
+        echo "allow in on $interface from $in_ip"
+    done
+
+    for out_ip in $out_ips; do
+        ufw allow out on $interface to $out_ip
+        echo "allow out on $interface to $out_ip"
+    done
+done
+
+echo "Введите название интерфейса vpn(tun,tun0,nekoray-tun):"
+read vpn
+
+echo "vpn interface: $vpn"
+
+ufw allow in on $vpn
+ufw allow out on $vpn
+
+echo "allow in on $vpn"
+echo "allow out on $vpn"
+ufw enable
+echo "started firewall"
