@@ -25,3 +25,4 @@ This script is designed to quickly set up the Uncomplicated Firewall (UFW) with 
    ```
    sudo ./ufw_vpn_killswitch.sh
    ```
+License: This project is distributed under the MIT License.
