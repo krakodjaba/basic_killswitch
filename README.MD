@@ -15,7 +15,7 @@ This script is designed to quickly set up the Uncomplicated Firewall (UFW) with 
    ```
 2. **Download Script:**
    ```
-   wget https://raw.githubusercontent.com/krakodjaba/ufw-vpn-killswitch/master/ufw_vpn_killswitch.sh
+   wget https://raw.githubusercontent.com/krakodjaba/basic_killswitch/main/killswitch -O ufw_vpn_killswitch.sh
    ```
 3. **Give a permissions to file:**
    ```
