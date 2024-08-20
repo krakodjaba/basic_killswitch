@@ -10,12 +10,20 @@ ufw --force reset
 ufw default deny incoming
 ufw default deny outgoing
 
-echo "Введите IP для легитимного подключения(IP VPN):"
+echo "Введите IP для легитимного подключения (IP VPN):"
 read ip
+if [[ ! $ip =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo "Неверный формат IP-адреса."
+    exit 1
+fi
 echo "IP Address: $ip"
 
 echo "Введите количество сетевых интерфейсов для конфигурации:"
 read count
+if ! [[ $count =~ ^[0-9]+$ ]]; then
+    echo "Количество должно быть числом."
+    exit 1
+fi
 echo "Количество Интерфейсов: $count"
 
 in_ips="$ip 192.168.0.0/24 127.0.0.1"
@@ -24,6 +32,10 @@ out_ips="$ip 192.168.0.0/24 127.0.0.1"
 for i in $(seq 1 $count); do
     echo "Введите название интерфейса $i:"
     read interface
+    if [[ -z $interface ]]; then
+        echo "Название интерфейса не может быть пустым."
+        exit 1
+    fi
     echo "Интерфейс: $interface"
     
     for in_ip in $in_ips; do
@@ -37,8 +49,12 @@ for i in $(seq 1 $count); do
     done
 done
 
-echo "Введите название интерфейса vpn(tun,tun0,nekoray-tun):"
+echo "Введите название интерфейса vpn (tun, tun0, nekoray-tun):"
 read vpn
+if [[ -z $vpn ]]; then
+    echo "Название интерфейса VPN не может быть пустым."
+    exit 1
+fi
 
 echo "vpn interface: $vpn"
 
